@@ -71,4 +71,25 @@ public class ClienteDAO {
 
         }
     }
+    
+    // Método excluirCliente
+    public void excluirCliente(Cliente obj) {
+        try {
+            //1 - criar comando sql
+            String sql = "delete from tb_clientes where cpf = ?";
+            
+            //2 - conectar o banco de dados e organizar o comando sql
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1,obj.getCpf());
+            
+            //3 - executar o comando sql
+            stmt.execute();
+            stmt.close();
+            
+            JOptionPane.showMessageDialog(null, "Excluído com sucesso");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+
+        }
+    }
 }

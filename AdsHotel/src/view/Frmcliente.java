@@ -230,6 +230,11 @@ public class Frmcliente extends javax.swing.JFrame {
 
         btnExcluir.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnExcluir.setText("EXCLUIR");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -307,6 +312,18 @@ public class Frmcliente extends javax.swing.JFrame {
 
         new Utilitarios().LimparTela(painelCadastroCliente);
     }//GEN-LAST:event_btnAtualizarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // botão EXCLUIR:
+
+        Cliente obj = new Cliente();
+        obj.setCliente(txtNome.getText(), txtCpf.getText(), txtEmail.getText(), txtTelefone.getText());
+
+        ClienteDAO dao = new ClienteDAO();
+        dao.excluirCliente(obj);
+
+        new Utilitarios().LimparTela(painelCadastroCliente);
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
