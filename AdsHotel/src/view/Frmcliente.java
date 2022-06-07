@@ -6,6 +6,7 @@ package view;
 
 import dao.ClienteDAO;
 import model.Cliente;
+import model.Utilitarios;
 
 /**
  *
@@ -278,7 +279,8 @@ public class Frmcliente extends javax.swing.JFrame {
         ClienteDAO dao = new ClienteDAO();
         dao.cadastrarCliente(obj);
 
-        
+        new Utilitarios().LimparTela(painelCadastroCliente);
+
 
         //txtnome.setText("");
         //txtcpf.setText("");
