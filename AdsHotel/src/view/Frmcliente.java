@@ -64,9 +64,10 @@ public class Frmcliente extends javax.swing.JFrame {
         txtTelefone = new javax.swing.JFormattedTextField();
         painelConsultaCliente = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        txtNomePesquisar = new javax.swing.JTextField();
+        txtNomeConsultar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaClientes = new javax.swing.JTable();
+        btnConsultar = new javax.swing.JButton();
         btnNovo = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnAtualizar = new javax.swing.JButton();
@@ -191,7 +192,7 @@ public class Frmcliente extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("NOME:");
 
-        txtNomePesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtNomeConsultar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,7 +205,21 @@ public class Frmcliente extends javax.swing.JFrame {
                 "Nome", "CPF", "E-mail", "Telefone"
             }
         ));
+        tabelaClientes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaClientesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tabelaClientes);
+
+        btnConsultar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnConsultar.setForeground(new java.awt.Color(51, 51, 255));
+        btnConsultar.setText("CONSULTAR");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout painelConsultaClienteLayout = new javax.swing.GroupLayout(painelConsultaCliente);
         painelConsultaCliente.setLayout(painelConsultaClienteLayout);
@@ -217,7 +232,9 @@ public class Frmcliente extends javax.swing.JFrame {
                     .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(52, 52, 52)
-                        .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNomeConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(btnConsultar)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         painelConsultaClienteLayout.setVerticalGroup(
@@ -226,7 +243,8 @@ public class Frmcliente extends javax.swing.JFrame {
                 .addGap(19, 19, 19)
                 .addGroup(painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNomeConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnConsultar))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
@@ -355,6 +373,35 @@ public class Frmcliente extends javax.swing.JFrame {
         listar();
     }//GEN-LAST:event_formWindowActivated
 
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        // Botão pesquisar cliente por Nome
+        String nome = "%" + txtNomeConsultar.getText() + "%";
+
+        ClienteDAO dao = new ClienteDAO();
+        List<Cliente> lista = dao.consultaClientesPorNome(nome);
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+
+        // para cada item dessa lista, é criado um objeto do tipo Cliente chamado c
+        for (Cliente c : lista) {
+            dados.addRow(new Object[]{
+                c.getNome(),
+                c.getCpf(),
+                c.getEmail(),
+                c.getTelefone(),});
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void tabelaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaClientesMouseClicked
+        // Pega os dados
+        clientes.setSelectedIndex(0);
+
+        txtNome.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 0).toString());
+        txtCpf.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 1).toString());
+        txtEmail.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 2).toString());
+        txtTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 3).toString());
+    }//GEN-LAST:event_tabelaClientesMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -392,6 +439,7 @@ public class Frmcliente extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAtualizar;
+    private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSalvar;
@@ -410,7 +458,7 @@ public class Frmcliente extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
-    private javax.swing.JTextField txtNomePesquisar;
+    private javax.swing.JTextField txtNomeConsultar;
     private javax.swing.JFormattedTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
 }
