@@ -6,6 +6,7 @@ package view;
 
 import dao.ClienteDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import model.Utilitarios;
@@ -62,6 +63,7 @@ public class Frmcliente extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtCpf = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
+        btnPesquisar = new javax.swing.JButton();
         painelConsultaCliente = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txtNomeConsultar = new javax.swing.JTextField();
@@ -146,6 +148,14 @@ public class Frmcliente extends javax.swing.JFrame {
             }
         });
 
+        btnPesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPesquisar.setText("PESQUISAR");
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout painelCadastroClienteLayout = new javax.swing.GroupLayout(painelCadastroCliente);
         painelCadastroCliente.setLayout(painelCadastroClienteLayout);
         painelCadastroClienteLayout.setHorizontalGroup(
@@ -163,7 +173,9 @@ public class Frmcliente extends javax.swing.JFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
                     .addComponent(txtCpf)
                     .addComponent(txtTelefone))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addComponent(btnPesquisar)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         painelCadastroClienteLayout.setVerticalGroup(
             painelCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +187,9 @@ public class Frmcliente extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(painelCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(painelCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPesquisar)))
                 .addGap(49, 49, 49)
                 .addGroup(painelCadastroClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel4)
@@ -187,7 +201,7 @@ public class Frmcliente extends javax.swing.JFrame {
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
-        clientes.addTab("CADASTRO CLIENTE", painelCadastroCliente);
+        clientes.addTab("DADOS DO CLIENTE", painelCadastroCliente);
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel6.setText("NOME:");
@@ -254,6 +268,11 @@ public class Frmcliente extends javax.swing.JFrame {
 
         btnNovo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnNovo.setText("NOVO");
+        btnNovo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoActionPerformed(evt);
+            }
+        });
 
         btnSalvar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnSalvar.setText("SALVAR");
@@ -402,6 +421,32 @@ public class Frmcliente extends javax.swing.JFrame {
         txtTelefone.setText(tabelaClientes.getValueAt(tabelaClientes.getSelectedRow(), 3).toString());
     }//GEN-LAST:event_tabelaClientesMouseClicked
 
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // Botão buscar cliente por CPF
+
+        String cpf = txtCpf.getText();
+        //Clientes obj = new Clientes();
+        ClienteDAO dao = new ClienteDAO();
+
+        Cliente obj = dao.buscaClientePorCpf(cpf);
+
+        if (obj.getCpf() != null) {
+            //Exibir os dados do objeto nos campos de texto
+            txtNome.setText(obj.getNome());
+            txtCpf.setText(obj.getCpf());
+            txtEmail.setText(obj.getEmail());
+            txtTelefone.setText(obj.getTelefone());
+        } else {
+            JOptionPane.showMessageDialog(null, "Cliente não encontrado");
+        }
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
+        // Botão NOVO
+        new Utilitarios().LimparTela(painelCadastroCliente);
+
+    }//GEN-LAST:event_btnNovoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -442,6 +487,7 @@ public class Frmcliente extends javax.swing.JFrame {
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnNovo;
+    private javax.swing.JButton btnPesquisar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTabbedPane clientes;
     private javax.swing.JLabel jLabel1;

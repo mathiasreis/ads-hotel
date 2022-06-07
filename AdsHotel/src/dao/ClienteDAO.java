@@ -150,4 +150,31 @@ public class ClienteDAO {
             return null;
         }
     }
+    
+    //Método buscar cliente por CPF
+    public Cliente buscaClientePorCpf(String cpf) {
+        try {
+            // 1 - criar o sql, organizar e executar
+            String sql = "select * from tb_clientes where cpf=?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, cpf);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            Cliente obj = new Cliente();
+
+            
+            if(rs.next()) {
+                
+                obj.setCliente(rs.getString("nome"), rs.getString("cpf"), rs.getString("email"), rs.getString("telefone"));
+
+            }
+            
+            return obj;
+           
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+            return null;
+        }
+    }
 }
