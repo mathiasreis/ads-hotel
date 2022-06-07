@@ -297,7 +297,15 @@ public class Frmcliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-        // TODO add your handling code here:
+        // botão ATUALIZAR:
+
+        Cliente obj = new Cliente();
+        obj.setCliente(txtNome.getText(), txtCpf.getText(), txtEmail.getText(), txtTelefone.getText());
+
+        ClienteDAO dao = new ClienteDAO();
+        dao.alterarCliente(obj);
+
+        new Utilitarios().LimparTela(painelCadastroCliente);
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**
