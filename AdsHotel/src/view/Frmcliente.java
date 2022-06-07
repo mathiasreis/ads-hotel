@@ -5,6 +5,8 @@
 package view;
 
 import dao.ClienteDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import model.Utilitarios;
 
@@ -13,6 +15,24 @@ import model.Utilitarios;
  * @author alexr
  */
 public class Frmcliente extends javax.swing.JFrame {
+    
+    // Método listar na tabela
+    public void listar() {
+        ClienteDAO dao = new ClienteDAO();
+        List<Cliente> lista = dao.listarClientes();
+        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        dados.setNumRows(0);
+
+        // para cada item dessa lista, é criado um objeto do tipo Cliente chamado c
+        for (Cliente c : lista) {
+            dados.addRow(new Object[]{
+                c.getNome(),
+                c.getCpf(),
+                c.getEmail(),
+                c.getTelefone(),});
+        }
+
+    }
 
     /**
      * Creates new form Frmcliente
@@ -42,17 +62,22 @@ public class Frmcliente extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtCpf = new javax.swing.JFormattedTextField();
         txtTelefone = new javax.swing.JFormattedTextField();
-        consultaCliente = new javax.swing.JPanel();
+        painelConsultaCliente = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         txtNomePesquisar = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        painelConsultaClientes = new javax.swing.JTable();
+        tabelaClientes = new javax.swing.JTable();
         btnNovo = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
         btnAtualizar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 255));
 
@@ -168,7 +193,7 @@ public class Frmcliente extends javax.swing.JFrame {
 
         txtNomePesquisar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        painelConsultaClientes.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -179,27 +204,27 @@ public class Frmcliente extends javax.swing.JFrame {
                 "Nome", "CPF", "E-mail", "Telefone"
             }
         ));
-        jScrollPane1.setViewportView(painelConsultaClientes);
+        jScrollPane1.setViewportView(tabelaClientes);
 
-        javax.swing.GroupLayout consultaClienteLayout = new javax.swing.GroupLayout(consultaCliente);
-        consultaCliente.setLayout(consultaClienteLayout);
-        consultaClienteLayout.setHorizontalGroup(
-            consultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(consultaClienteLayout.createSequentialGroup()
+        javax.swing.GroupLayout painelConsultaClienteLayout = new javax.swing.GroupLayout(painelConsultaCliente);
+        painelConsultaCliente.setLayout(painelConsultaClienteLayout);
+        painelConsultaClienteLayout.setHorizontalGroup(
+            painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                 .addGap(62, 62, 62)
-                .addGroup(consultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 718, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(consultaClienteLayout.createSequentialGroup()
+                    .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(52, 52, 52)
                         .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
-        consultaClienteLayout.setVerticalGroup(
-            consultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(consultaClienteLayout.createSequentialGroup()
+        painelConsultaClienteLayout.setVerticalGroup(
+            painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(painelConsultaClienteLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(consultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(painelConsultaClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(txtNomePesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
@@ -207,7 +232,7 @@ public class Frmcliente extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
-        clientes.addTab("CONSULTA CLIENTES", consultaCliente);
+        clientes.addTab("CONSULTA CLIENTES", painelConsultaCliente);
 
         btnNovo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnNovo.setText("NOVO");
@@ -325,6 +350,11 @@ public class Frmcliente extends javax.swing.JFrame {
         new Utilitarios().LimparTela(painelCadastroCliente);
     }//GEN-LAST:event_btnExcluirActionPerformed
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // Carrega a lista
+        listar();
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -366,7 +396,6 @@ public class Frmcliente extends javax.swing.JFrame {
     private javax.swing.JButton btnNovo;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JTabbedPane clientes;
-    private javax.swing.JPanel consultaCliente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -376,7 +405,8 @@ public class Frmcliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel painelCadastroCliente;
-    private javax.swing.JTable painelConsultaClientes;
+    private javax.swing.JPanel painelConsultaCliente;
+    private javax.swing.JTable tabelaClientes;
     private javax.swing.JFormattedTextField txtCpf;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNome;
