@@ -5,11 +5,13 @@
 package view;
 
 import dao.ClienteDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Cliente;
 import model.Utilitarios;
+import tablemodel.ClienteTableModel;
 
 /**
  *
@@ -20,18 +22,24 @@ public class Frmcliente extends javax.swing.JFrame {
     // Método listar na tabela
     public void listar() {
         ClienteDAO dao = new ClienteDAO();
-        List<Cliente> lista = dao.listarClientes();
-        DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
-        dados.setNumRows(0);
+        ArrayList<Cliente> lista = dao.listarClientes();
+        //DefaultTableModel dados = (DefaultTableModel) tabelaClientes.getModel();
+        //dados.setNumRows(0);
+        ClienteTableModel model = new ClienteTableModel(lista);
+        tabelaClientes.setModel(model);
+        
 
         // para cada item dessa lista, é criado um objeto do tipo Cliente chamado c
-        for (Cliente c : lista) {
-            dados.addRow(new Object[]{
-                c.getNome(),
-                c.getCpf(),
-                c.getEmail(),
-                c.getTelefone(),});
-        }
+        //for (Cliente c : lista) {
+        //   dados.addRow(new Object[]{
+        //        c.getNome(),
+        //        c.getCpf(),
+        //        c.getEmail(),
+        //        c.getTelefone(),});
+        //}
+        
+        
+        
 
     }
 
@@ -137,7 +145,7 @@ public class Frmcliente extends javax.swing.JFrame {
         txtCpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         try {
-            txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # ####-####")));
+            txtTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) # #### - ####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -323,7 +331,7 @@ public class Frmcliente extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addGap(70, 70, 70)
                 .addComponent(clientes, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -331,10 +339,11 @@ public class Frmcliente extends javax.swing.JFrame {
                     .addComponent(btnSalvar)
                     .addComponent(btnAtualizar)
                     .addComponent(btnExcluir))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -458,7 +467,7 @@ public class Frmcliente extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
