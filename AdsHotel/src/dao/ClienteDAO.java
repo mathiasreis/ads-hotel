@@ -97,10 +97,10 @@ public class ClienteDAO {
     }
     
     // Método listarCliente
-    public List<Cliente> listarClientes() {
+    public ArrayList<Cliente> listarClientes() {
         try {
             //1 - criar a lista
-            List<Cliente> lista = new ArrayList<>();
+            ArrayList<Cliente> lista = new ArrayList<>();
             
             //2 - criar sql, organizar e executar
             String sql = "select * from tb_clientes";
